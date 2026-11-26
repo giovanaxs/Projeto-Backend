@@ -1,0 +1,46 @@
+function cpfValido(cpf) {
+    cpf = String(cpf).replace(/\D/g, '');
+
+    if (cpf.length !== 11) {
+        return false;
+    }
+
+    // Impede CPFs com todos os números iguais
+    if (/^(\d)\1{10}$/.test(cpf)) {
+        return false;
+    }
+
+    let soma = 0;
+
+    // Calcula o primeiro dígito verificador
+    for (let i = 0; i < 9; i++) {
+        soma += Number(cpf[i]) * (10 - i);
+    }
+
+    let resto = (soma * 10) % 11;
+
+    if (resto === 10) {
+        resto = 0;
+    }
+
+    if (resto !== Number(cpf[9])) {
+        return false;
+    }
+
+    soma = 0;
+
+    // Calcula o segundo dígito verificador
+    for (let i = 0; i < 10; i++) {
+        soma += Number(cpf[i]) * (11 - i);
+    }
+
+    resto = (soma * 10) % 11;
+
+    if (resto === 10) {
+        resto = 0;
+    }
+
+    return resto === Number(cpf[10]);
+}
+
+module.exports = { cpfValido };
