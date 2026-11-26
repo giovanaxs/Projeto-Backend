@@ -9,7 +9,7 @@ INSERT IGNORE INTO usuarios (nome, email, cpf, senha_hash)
 VALUES
 (
     'Usuário Demonstração 1',
-    '',
+    'demo1@exemplo.com',
     '93541134780',
     '$2b$10$/zU6lqU.7XWRYkQz.wwG5uL.kZdIucB4uVUCp81/iuecI/fVNbCk.'
 ),
@@ -38,7 +38,7 @@ CROSS JOIN (
     UNION ALL SELECT 'Educação', 'saida'
     UNION ALL SELECT 'Outras saídas', 'saida'
 ) c
-WHERE u.email IN ('', 'demo2@exemplo.com');
+WHERE u.email IN ('demo1@exemplo.com', 'demo2@exemplo.com');
 
 -- =====================================
 -- 3. FONTES E DESTINOS
@@ -47,13 +47,13 @@ WHERE u.email IN ('', 'demo2@exemplo.com');
 INSERT IGNORE INTO fontes_destinos (usuario_id, nome, tipo)
 SELECT id, 'Conta Demonstração', 'conta'
 FROM usuarios
-WHERE email = '';
+WHERE email = 'demo1@exemplo.com';
 
 INSERT IGNORE INTO fontes_destinos
 (usuario_id, nome, tipo, dia_fechamento, dia_vencimento, limite)
-SELECT id, 'Cartão Demonstração', 'cartao_credito', 15, 10, 3000.00
+SELECT id, 'Cartão Demonstração', 'cartao_credito', 10, 17, 3000.00
 FROM usuarios
-WHERE email = '';
+WHERE email = 'demo1@exemplo.com';
 
 INSERT IGNORE INTO fontes_destinos (usuario_id, nome, tipo)
 SELECT id, 'Conta Demonstração 2', 'conta'
@@ -73,7 +73,7 @@ SELECT u.id, 'entrada', 'Salário de agosto', 3500.00,
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Salário'
   AND f.nome = 'Conta Demonstração'
   AND NOT EXISTS (
@@ -91,7 +91,7 @@ SELECT u.id, 'saida', 'Mercado de agosto', 450.00,
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Alimentação'
   AND f.nome = 'Conta Demonstração'
   AND NOT EXISTS (
@@ -109,7 +109,7 @@ SELECT u.id, 'entrada', 'Salário de setembro', 3500.00,
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Salário'
   AND f.nome = 'Conta Demonstração'
   AND NOT EXISTS (
@@ -127,7 +127,7 @@ SELECT u.id, 'entrada', 'Salário de outubro', 3500.00,
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Salário'
   AND f.nome = 'Conta Demonstração'
   AND NOT EXISTS (
@@ -147,13 +147,13 @@ INSERT INTO lancamentos
  categoria_id, fonte_destino_id, parcela_atual,
  total_parcelas, grupo_parcelamento)
 SELECT u.id, 'saida', 'Compra parcelada de demonstração',
-       33.34, '2026-09-20', '2026-09-20',
+       33.34, '2026-11-26', '2026-11-26',
        c.id, f.id, 1, 3,
        '11111111-1111-4111-8111-111111111111'
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Alimentação'
   AND f.nome = 'Cartão Demonstração'
   AND NOT EXISTS (
@@ -169,13 +169,13 @@ INSERT INTO lancamentos
  categoria_id, fonte_destino_id, parcela_atual,
  total_parcelas, grupo_parcelamento)
 SELECT u.id, 'saida', 'Compra parcelada de demonstração',
-       33.33, '2026-10-20', '2026-09-20',
+       33.33, '2026-12-26', '2026-11-26',
        c.id, f.id, 2, 3,
        '11111111-1111-4111-8111-111111111111'
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Alimentação'
   AND f.nome = 'Cartão Demonstração'
   AND NOT EXISTS (
@@ -191,13 +191,13 @@ INSERT INTO lancamentos
  categoria_id, fonte_destino_id, parcela_atual,
  total_parcelas, grupo_parcelamento)
 SELECT u.id, 'saida', 'Compra parcelada de demonstração',
-       33.33, '2026-11-20', '2026-09-20',
+       33.33, '2027-01-26', '2026-11-26',
        c.id, f.id, 3, 3,
        '11111111-1111-4111-8111-111111111111'
 FROM usuarios u
 JOIN categorias c ON c.usuario_id = u.id
 JOIN fontes_destinos f ON f.usuario_id = u.id
-WHERE u.email = ''
+WHERE u.email = 'demo1@exemplo.com'
   AND c.nome = 'Alimentação'
   AND f.nome = 'Cartão Demonstração'
   AND NOT EXISTS (
