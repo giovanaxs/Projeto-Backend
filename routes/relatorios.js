@@ -7,7 +7,6 @@ const Relatorio = require('../models/Relatorio');
 
 router.use(protegerRota);
 
-// RF9 - Relatório de faturas
 router.get('/faturas', async (req, res) => {
   try {
     const meses = req.query.meses === undefined
@@ -44,7 +43,6 @@ function dataValida(data) {
     dataObj.getUTCDate() === dia;
 }
 
-// RF7 - Relatório por categorias
 router.get('/categorias', async (req, res) => {
   try {
     const { inicio, fim } = req.query;
@@ -77,8 +75,6 @@ router.get('/categorias', async (req, res) => {
   }
 });
 
-
- // RF8 - Relatório de fontes e destinos
 router.get('/fontes-destinos', async (req, res) => {
   try {
     const { inicio, fim } = req.query;

@@ -84,7 +84,6 @@ async function criar(usuarioId, dados) {
       ? require('crypto').randomUUID()
       : null;
 
-    // Converte o valor para centavos para evitar erros de arredondamento
     const valorCentavos = Math.round(Number(dados.valor) * 100);
     const valorBase = Math.floor(valorCentavos / totalParcelas);
     const resto = valorCentavos % totalParcelas;

@@ -7,7 +7,6 @@ const protegerRota = require('../middleware/auth');
 
 router.use(protegerRota);
 
-// LISTAR fontes e destinos
 router.get('/', async (req, res) => {
   try {
     const { tipo } = req.query;
@@ -23,7 +22,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// CADASTRAR fonte ou destino
 router.post('/', async (req, res) => {
   try {
     const { nome, tipo, dia_fechamento, dia_vencimento, limite } = req.body;
@@ -75,7 +73,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ATUALIZAR fonte ou destino
 router.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -132,7 +129,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// EXCLUIR fonte ou destino
+
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);

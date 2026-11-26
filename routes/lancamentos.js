@@ -20,7 +20,6 @@ function dataValida(data) {
   );
 }
 
-// LISTAR lançamentos
 router.get('/', async (req, res) => {
   try {
     const { tipo, categoria_id, fonte_destino_id, inicio, fim, pagina } = req.query;
@@ -79,7 +78,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// CONSULTAR lançamento por ID
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -100,7 +98,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// CADASTRAR lançamento
 router.post('/', async (req, res) => {
   try {
     const {
@@ -133,7 +130,6 @@ router.post('/', async (req, res) => {
   return res.status(400).json({ erro: 'O valor deve ser maior que zero.' });
 }
 
-    // VALIDAÇÃO DO NÚMERO DE PARCELAS
     if (
     !Number.isInteger(Number(total_parcelas)) ||
     Number(total_parcelas) < 1 ||
@@ -144,7 +140,7 @@ router.post('/', async (req, res) => {
     });
     }
 
-    // VALIDAÇÃO DA DATA
+    
     if (!dataValida(data)) {
     return res.status(400).json({ erro: 'Data inválida. Use o formato YYYY-MM-DD.' });
     }
@@ -209,7 +205,6 @@ router.post('/', async (req, res) => {
 }
 });
 
-// ATUALIZAR lançamento
 router.put('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -283,7 +278,6 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// EXCLUIR lançamento
 router.delete('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);

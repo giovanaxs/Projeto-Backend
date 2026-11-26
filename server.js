@@ -30,14 +30,12 @@ app.use((erro, req, res, next) => {
     });
 });
 
-// Rota inicial
 app.get('/', (req, res) => {
     res.status(200).json({
         mensagem: 'API de Controle Financeiro funcionando!'
     });
 });
 
-// Inicialização e teste do banco
 async function iniciarServidor() {
     try {
         const conexao = await pool.getConnection();

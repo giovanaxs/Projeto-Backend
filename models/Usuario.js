@@ -7,7 +7,6 @@ async function cadastrar({ nome, email, cpf, senha }) {
     try {
         await conexao.beginTransaction();
 
-        // Verifica se o e-mail já está cadastrado
         const [emailExistente] = await conexao.execute(
             'SELECT id FROM usuarios WHERE email = ?',
             [email]
@@ -20,7 +19,6 @@ async function cadastrar({ nome, email, cpf, senha }) {
             throw erro;
         }
 
-        // Verifica se o CPF já está cadastrado
         const [cpfExistente] = await conexao.execute(
             'SELECT id FROM usuarios WHERE cpf = ?',
             [cpf]
@@ -33,10 +31,8 @@ async function cadastrar({ nome, email, cpf, senha }) {
             throw erro;
         }
 
-        // Criptografa a senha
         const senhaHash = await bcrypt.hash(senha, 10);
 
-        // Insere o usuário
         const [resultado] = await conexao.execute(
             `INSERT INTO usuarios (nome, email, cpf, senha_hash)
              VALUES (?, ?, ?, ?)`,
@@ -45,7 +41,6 @@ async function cadastrar({ nome, email, cpf, senha }) {
 
         const usuarioId = resultado.insertId;
 
-        // Categorias padrão
         const categorias = [
             ['Salário', 'entrada'],
             ['Outras entradas', 'entrada'],
@@ -66,7 +61,6 @@ async function cadastrar({ nome, email, cpf, senha }) {
             );
         }
 
-        // Conta corrente padrão
         await conexao.execute(
             `INSERT INTO fontes_destinos (usuario_id, nome, tipo)
              VALUES (?, ?, ?)`,

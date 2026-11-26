@@ -5,14 +5,12 @@ function cpfValido(cpf) {
         return false;
     }
 
-    // Impede CPFs com todos os números iguais
     if (/^(\d)\1{10}$/.test(cpf)) {
         return false;
     }
 
     let soma = 0;
 
-    // Calcula o primeiro dígito verificador
     for (let i = 0; i < 9; i++) {
         soma += Number(cpf[i]) * (10 - i);
     }
@@ -28,8 +26,7 @@ function cpfValido(cpf) {
     }
 
     soma = 0;
-
-    // Calcula o segundo dígito verificador
+    
     for (let i = 0; i < 10; i++) {
         soma += Number(cpf[i]) * (11 - i);
     }

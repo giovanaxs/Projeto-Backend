@@ -16,12 +16,10 @@ module.exports = protegerRota;
 const Usuario = require('../models/Usuario');
 const { cpfValido } = require('../utils/cpf');
 
-// POST /auth/cadastro
 router.post('/cadastro', async (req, res) => {
     try {
         let { nome, email, cpf, senha } = req.body;
 
-        // Verifica se todos os campos foram enviados
         if (!nome || !email || !cpf || !senha) {
             return res.status(400).json({
                 erro: 'Todos os campos são obrigatórios.',
@@ -29,7 +27,6 @@ router.post('/cadastro', async (req, res) => {
             });
         }
 
-        // Normaliza os dados
         nome = nome.trim();
         email = email.trim().toLowerCase();
         cpf = String(cpf).replace(/\D/g, '');
@@ -40,7 +37,6 @@ router.post('/cadastro', async (req, res) => {
             });
         }
 
-        // Valida o formato do e-mail
         const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailValido.test(email)) {
@@ -50,7 +46,6 @@ router.post('/cadastro', async (req, res) => {
             });
         }
 
-        // Valida o CPF
         if (!cpfValido(cpf)) {
             return res.status(400).json({
                 erro: 'CPF inválido.',
@@ -58,7 +53,6 @@ router.post('/cadastro', async (req, res) => {
             });
         }
 
-        // Valida a senha: mínimo 8 caracteres, letra e número
         const senhaValida = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
 
         if (!senhaValida.test(senha)) {
@@ -68,7 +62,6 @@ router.post('/cadastro', async (req, res) => {
             });
         }
 
-        // Chama o model para cadastrar
         const usuario = await Usuario.cadastrar({
             nome,
             email,
@@ -88,8 +81,6 @@ router.post('/cadastro', async (req, res) => {
     }
 });
 
-
-// POST /auth/login
 router.post('/login', async (req, res) => {
     try {
         let { email, senha } = req.body;
@@ -102,7 +93,6 @@ router.post('/login', async (req, res) => {
 
         email = email.trim().toLowerCase();
 
-        // Busca o usuário pelo e-mail
         const [usuarios] = await pool.execute(
             'SELECT * FROM usuarios WHERE email = ?',
             [email]
@@ -116,7 +106,6 @@ router.post('/login', async (req, res) => {
 
         const usuario = usuarios[0];
 
-        // Compara a senha com o hash armazenado
         const senhaCorreta = await bcrypt.compare(
             senha,
             usuario.senha_hash
@@ -128,7 +117,6 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        // Gera o token JWT
         const token = jwt.sign(
             {
                 id: usuario.id,
@@ -153,7 +141,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// GET /auth/me
 router.get('/me', protegerRota, async (req, res) => {
     try {
         const [usuarios] = await pool.execute(
@@ -179,7 +166,5 @@ router.get('/me', protegerRota, async (req, res) => {
         });
     }
 });
-
-
 
 module.exports = router;

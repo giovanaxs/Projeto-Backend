@@ -17,7 +17,6 @@ async function faturas(usuarioId, meses = 3) {
     String(hoje.getDate()).padStart(2, '0')
   ].join('-');
 
-  // Calcula a data limite sem problemas em meses com menos dias
   const diaHoje = hoje.getDate();
   const dataLimite = new Date(
     hoje.getFullYear(),
@@ -64,12 +63,10 @@ async function faturas(usuarioId, meses = 3) {
 
       const valor = Number(lancamento.valor);
 
-      // Soma todas as parcelas com vencimento futuro
       if (datas.vencimento >= hojeISO) {
         limiteUtilizado += valor;
       }
 
-      // Exibe somente as faturas dentro do período solicitado
       if (
         datas.vencimento < hojeISO ||
         datas.vencimento > limiteDataISO
