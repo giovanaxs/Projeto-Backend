@@ -352,6 +352,114 @@ A API utiliza códigos HTTP para indicar o resultado das operações.
 | 409 | Conflict | E-mail, CPF ou nome duplicado |
 | 500 | Internal Server Error | Erro interno |
 
+### 6.1. Testes de validações, isolamento (RF3) e segurança
+
+#### 6.1.1. Cadastro com e-mail duplicado (letras maiúsculas)
+
+**Método:** POST
+
+**Rota:** `/auth/cadastro`
+
+**Body (JSON):**
+
+```json
+{
+  "nome": "Outro Usuário",
+  "email": "DEMO1@EXEMPLO.COM",
+  "cpf": "39053344705",
+  "senha": "Senha123"
+}
+```
+
+**Resposta esperada:** `409 Conflict` (o sistema normaliza o e-mail para minúsculas antes de verificar duplicidade).
+
+#### 6.1.2. Cadastro com CPF duplicado (com pontuação)
+
+**Método:** POST
+
+**Rota:** `/auth/cadastro`
+
+**Body (JSON):**
+
+```json
+{
+  "nome": "Outro Usuário",
+  "email": "novo@exemplo.com",
+  "cpf": "111.444.777-35",
+  "senha": "Senha123"
+}
+```
+
+**Resposta esperada:** `409 Conflict` (o sistema remove pontos e traço do CPF antes de validar e consultar no banco).
+
+#### 6.1.3. Requisição protegida sem token
+
+**Método:** GET
+
+**Rota:** `/lancamentos`
+
+**Headers:** sem `Authorization: Bearer <token>`.
+
+**Resposta esperada:** `401 Unauthorized`.
+
+#### 6.1.4. Tentativa de consultar lançamento de outro usuário (RF3)
+
+**Método:** GET
+
+**Rota:** `/lancamentos/1` *(autenticado com o token do `demo2@exemplo.com`, tentando acessar um lançamento pertencente ao `demo1@exemplo.com`)*
+
+**Resposta esperada:** `404 Not Found`.
+
+#### 6.1.5. Tentativa de alterar lançamento de outro usuário (RF3)
+
+**Método:** PUT
+
+**Rota:** `/lancamentos/1` *(autenticado com o token do `demo2@exemplo.com`)*
+
+**Body (JSON):**
+
+```json
+{
+  "tipo": "saida",
+  "descricao": "Tentativa indevida",
+  "valor": 50,
+  "data": "2026-11-26",
+  "categoria_id": 10,
+  "fonte_destino_id": 3
+}
+```
+
+**Resposta esperada:** `404 Not Found`.
+
+#### 6.1.6. Tentativa de excluir lançamento de outro usuário (RF3)
+
+**Método:** DELETE
+
+**Rota:** `/lancamentos/1` *(autenticado com o token do `demo2@exemplo.com`)*
+
+**Resposta esperada:** `404 Not Found`.
+
+#### 6.1.7. Tentativa de cadastrar saída usando categoria de entrada
+
+**Método:** POST
+
+**Rota:** `/lancamentos` *(autenticado com o token do `demo1@exemplo.com`, informando o ID da categoria `Salário`, que é do tipo `entrada`)*
+
+**Body (JSON):**
+
+```json
+{
+  "tipo": "saida",
+  "descricao": "Despesa com categoria incompatível",
+  "valor": 120,
+  "data": "2026-11-26",
+  "categoria_id": 1,
+  "fonte_destino_id": 1
+}
+```
+
+**Resposta esperada:** `400 Bad Request` (falha de validação por incompatibilidade entre o tipo do lançamento e o tipo da categoria).
+
 ## 7. Segurança
 
 Durante os testes, foram consideradas as seguintes regras:
