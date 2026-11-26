@@ -1,0 +1,33 @@
+{
+  "name": "projetobackend",
+  "version": "1.0.0",
+  "description": "��e\u0000c\u0000h\u0000o\u0000\r\u0000 \u0000#\u0000 \u0000P\u0000r\u0000o\u0000j\u0000e\u0000t\u0000o\u0000-\u0000B\u0000a\u0000c\u0000k\u0000e\u0000n\u0000d\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giovanaxs/Projeto-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/giovanaxs/Projeto-Backend/issues"
+  },
+  "homepage": "https://github.com/giovanaxs/Projeto-Backend#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.24.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
