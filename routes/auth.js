@@ -10,9 +10,6 @@ const protegerRota = expressjwt({
     algorithms: ['HS256']
 });
 
-module.exports = protegerRota;
-
-
 const Usuario = require('../models/Usuario');
 const { cpfValido } = require('../utils/cpf');
 

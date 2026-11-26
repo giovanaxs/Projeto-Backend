@@ -126,10 +126,6 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ erro: 'O valor deve ser maior que zero.' });
     }
 
-    if (!Number.isFinite(Number(valor)) || Number(valor) <= 0) {
-  return res.status(400).json({ erro: 'O valor deve ser maior que zero.' });
-}
-
     if (
     !Number.isInteger(Number(total_parcelas)) ||
     Number(total_parcelas) < 1 ||
@@ -143,10 +139,6 @@ router.post('/', async (req, res) => {
     
     if (!dataValida(data)) {
     return res.status(400).json({ erro: 'Data inválida. Use o formato YYYY-MM-DD.' });
-    }
-
-    if (!dataValida(data)) {
-      return res.status(400).json({ erro: 'Data inválida. Use o formato YYYY-MM-DD.' });
     }
 
     if (
@@ -170,10 +162,6 @@ router.post('/', async (req, res) => {
     Number(fonte_destino_id),
     req.auth.id
     );
-
-    if (!fonte) {
-    return res.status(404).json({ erro: 'Fonte ou destino não encontrado.' });
-    }
 
     if (Number(total_parcelas) > 1 && fonte.tipo !== 'cartao_credito') {
     return res.status(400).json({

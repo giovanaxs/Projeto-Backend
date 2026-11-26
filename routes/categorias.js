@@ -4,10 +4,8 @@ const router = express.Router();
 const Categoria = require('../models/Categoria');
 const protegerRota = require('../middleware/auth');
 
-// Todas as rotas deste arquivo exigem autenticação
 router.use(protegerRota);
 
-// GET /categorias
 router.get('/', async (req, res) => {
     try {
         const { tipo } = req.query;
@@ -33,7 +31,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST /categorias
 router.post('/', async (req, res) => {
     try {
         let { nome, tipo } = req.body;
@@ -80,7 +77,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT /categorias/:id
 router.put('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
@@ -147,7 +143,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// DELETE /categorias/:id
 router.delete('/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
